@@ -1,5 +1,10 @@
-#include <stdio.h>
+// Test copy elision(or RVO)
+// The copy elision is enabled even in C++98
+// don't test some complex cases.
 
+// Please compile this program in gcc:
+// g++ -o demo copy_elision.cc -std=c++98
+#include <stdio.h>
 #include <type_traits>
 
 struct A {
@@ -15,6 +20,14 @@ struct A {
     return *this;
   }
 
+#if __cplusplus > 201103L
+  A &operator=(A &&)
+  {
+    printf("Move operator\n");
+    return *this;
+  }
+#endif
+
   friend A operator+(A const &a, A const &b)
   {
     return A();
@@ -24,12 +37,4 @@ struct A {
 int main() {
   A a, b, c;
   A d = a + b + c;
-
-  int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-
-  for (auto i : arr)
-  {
-    printf("%d\n", i);
-  }
-  // static_assert(0);
 }
