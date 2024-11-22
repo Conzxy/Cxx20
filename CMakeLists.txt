@@ -3,4 +3,7 @@ project(CXX20_demo)
 
 include(cmake/exe_util.cmake)
 
-add_executable_20(format format.cpp)
+# add_executable_20(format format.cpp)
+
+file(GLOB DEMO_FILES ./*.cc ./*.cpp)
+add_single_file_executable(DEMO_FILES)
