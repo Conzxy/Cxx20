@@ -8,11 +8,17 @@
 template <typename T>
 concept Numeric = std::is_arithmetic_v<T>;
 
+// 这是个语法糖
+// 等价：
+// template <typename T>
+// requires Numeric<T>
 template <Numeric T>
 void print_number(T x) {
     fmt::println("number: {}", x);
 }
 
+// requires可以搭配返回bool的谓词使用
+// 但是本身并不是Concept, 因此不能修饰模板参数
 template <typename T>
 requires std::is_integral_v<typename T::value_type>
 constexpr double avg(T const &arr) {
