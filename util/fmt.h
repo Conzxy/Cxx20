@@ -20,6 +20,12 @@ void println(std::string_view fmt, Args const&... args) noexcept
     puts(std::vformat(fmt, std::make_format_args(args...)).c_str());
 }
 
+void print_elements(const auto& elems, std::string_view sep=" ") {
+    for (const auto& e : elems) {
+        fmt::print("{}{}", e, sep);
+    }
+}
+
 } // namespace fmt
 
 #endif

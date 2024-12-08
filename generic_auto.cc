@@ -1,10 +1,35 @@
 #include <vector>
-#include <ranges>
+#include <algorithm>
 
 #include "util/fmt.h"
 
+// Usage:
+// 1. 可以在函数内定义泛型lambda（局部）
+// 2. 传递predicate不需要指定模板实参，通配functor
 auto printElem = [](const auto& cont) {
     for (const auto& e : cont) {
+        fmt::println("{}", e);
+    }
+};
+
+// template <typename T>
+// void printElemF(const T& cont);
+
+void printElemF(const auto& cont);
+
+// auto可以视作T的语法糖
+void printElemF(const auto& cont) {
+    for (const auto& e : cont) {
+        fmt::println("{}", e);
+    }
+}
+
+// Also, you can use std::same_as concept to replace
+template <typename T>
+concept IsVector = std::is_same_v<T, std::decay_t<std::vector<typename T::value_type>>>;
+
+auto printElemV = [](const IsVector auto& vec) {
+    for (const auto& e : vec) {
         fmt::println("{}", e);
     }
 };
@@ -104,4 +129,20 @@ constexpr auto end(const std::tuple<Args...>& tpl) {
 
 auto main() -> int {
     printElem(std::vector{ 1, 2, 3 });
+    printElemF(std::vector{ 1, 2, 3 });
+    printElemV(std::vector{ 1, 2, 3 });
+    // printElemV(std::initializer_list{1, 2, 3}); // Error!
+
+    // Note: constexpr可以不加，似乎默认constexpr
+    constexpr auto LessBySize = [](const auto& lhs, const auto& rhs) {
+        return lhs.size() < rhs.size();
+    };
+
+    std::vector<std::string> strs{ "12", "1", "1234", "123" };
+    std::sort(std::ranges::begin(strs), std::ranges::end(strs), LessBySize);
+    printElemV(strs);
+
+    // 指定泛型lambda的模板实参
+    static_assert(LessBySize.operator()<std::string, std::string>("xx", "sasdf"));
+
 }
