@@ -15,7 +15,7 @@ using namespace std;
 template <range R>
 void parallel_find(std::stop_token tok, std::ranges::iterator_t<R> base, R&& range, const std::string& target, std::atomic<int>& result)
 {
-    for (auto p = std::ranges::begin(range); p != std::ranges::end(range); ++p) {
+    for (auto p = std::ranges::begin(range); p != std::ranges::end(range) && !tok.stop_requested(); ++p) {
         if (*p == target) {
             result = std::ranges::distance(base, p);
             return;
