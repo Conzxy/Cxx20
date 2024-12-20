@@ -5,5 +5,11 @@ include(cmake/exe_util.cmake)
 
 # add_executable_20(format format.cpp)
 
-file(GLOB DEMO_FILES ./*.cc ./*.cpp)
+file(GLOB DEMO_FILES
+    ./*.cc
+    ./*.cpp
+    concurrency/*.cc
+)
+
 add_single_file_executable(DEMO_FILES)
+include_directories(.)

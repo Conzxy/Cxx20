@@ -8,7 +8,6 @@
 namespace rg = std::ranges;
 namespace vw = rg::views;
 
-std::sortable<>
 auto main() -> int {
     std::vector vec{ 1, 2, 3, 4, 5 };
     rg::sort(vec, std::greater<int>());
