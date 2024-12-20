@@ -7,8 +7,10 @@ include(cmake/exe_util.cmake)
 
 file(GLOB DEMO_FILES
     ./*.cc
-    ./*.cpp
     concurrency/*.cc
+    concept/*.cc
+    constexpr/*.cc
+    ranges/*.cc
 )
 
 add_single_file_executable(DEMO_FILES)
