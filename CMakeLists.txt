@@ -11,6 +11,7 @@ file(GLOB DEMO_FILES
     concept/*.cc
     constexpr/*.cc
     ranges/*.cc
+    operator/*.cc
 )
 
 add_single_file_executable(DEMO_FILES)
